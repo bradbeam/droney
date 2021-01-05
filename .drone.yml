@@ -26,10 +26,8 @@ services:
   - --dns=8.8.4.4
   - --mtu=1400
   - --log-level=error
-  privileged: true
   ports:
   - 6443
-  - 50000
   volumes:
   - name: dockersock
     path: /var/run
