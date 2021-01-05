@@ -5,10 +5,35 @@ name: default
 
 steps:
 - name: kind
-  image: docker:dind
+  image: ubuntu
   commands:
   - apt update && apt install -y wget
   - wget https://github.com/kubernetes-sigs/kind/releases/download/v0.9.0/kind-linux-amd64
   - chmod 755 kind-linux-amd64
   - ./kind-linux-amd64 create cluster
   - kubectl get nodes
+  volumes:
+  - name: dockersock
+    path: /var/run
+
+services:
+- name: docker
+  image: docker:dind
+  entrypoint:
+  - dockerd
+  command:
+  - --dns=8.8.8.8
+  - --dns=8.8.4.4
+  - --mtu=1400
+  - --log-level=error
+  privileged: true
+  ports:
+  - 6443
+  - 50000
+  volumes:
+  - name: dockersock
+    path: /var/run
+
+volumes:
+- name: dockersock
+  temp: {}
