@@ -10,6 +10,5 @@ steps:
   - apt update && apt install -y wget
   - wget https://github.com/kubernetes-sigs/kind/releases/download/v0.9.0/kind-linux-amd64
   - chmod 755 kind-linux-amd64
-  - ./kind-linux-amd64
-  - kind create cluster
+  - ./kind-linux-amd64 create cluster
   - kubectl get nodes
